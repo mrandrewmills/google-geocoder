@@ -5,6 +5,8 @@
 	    private $geoCoordinates;
 	    private $limit = 5; // default value
 	    private $apiKey;
+	    private $outputFormat = "json"; // can be json or xml
+	    private $fullResponse;
 	
 	    // Getters & Setters
 	    public function getStreetAddress() {
@@ -38,19 +40,37 @@
 	    public function setApiKey($apiKey) {
 	        $this->apiKey = $apiKey;
 	    }
+		
+	    public function getOutputFormat() {
+		return $this->outputFormat;
+	    }
+		
+	    public function setOutputFormat($outputFormat) {
+		$this->outputFormat = $outputFormat;
+	    }
 	
 	    public function geocode() {
 	
-			echo "<br />Started at: " . microtime();
 	        // Google geocoder has rate limit 
 	        usleep( 1000000 / $this->limit );
+
+		// let's build our URL
+		$baseURL = "https://maps.googleapis.com/maps/api/geocode/";
+		$output = $this->outputFormat;
+		$addressURL = "?address=" . rawurlencode($this->streetAddress);
+		$keyURL = "&key=" . $this->apiKey;
+
+		// now let's put them all together
+		$fullURL = $baseURL . $output . $addressURL . $keyURL;
 	
-	        // ToDo geocoder API call (simulated for now)
-	        $result = base64_encode($this->streetAddress);
+		// now let's ask Google for the geocode information	
+		$this->fullResponse = file_get_contents($fullURL);
+	
+		// ToDo: check status of the response, to make sure everything is good
+		// ToDo: convert response to array, parse for coordinates
 			
-			echo "<br />Finished at: " . microtime();
-			
-			return $result;
+		// return full response for right now.
+		return $this->fullResponse;
 	    }
 	}
 ?>
