@@ -73,15 +73,17 @@
 			$fullURL = $baseURL . $output . $addressURL . $keyURL;
 	
 			// now let's ask Google for the geocode information	
-			$this->fullResponse = file_get_contents($fullURL);
+			$fullResponse = json_decode(file_get_contents($fullURL), true);
 			
 			$geocoordinates = "";
 	
 			// ToDo: check status of the response, to make sure everything is good
-			// ToDo: convert response to array, parse for coordinates
+			
+			$geocoordinates["latitude"] = $this->fullResponse["results"][0]["geometry"]["location"]["lat"];
+			$geocoordinates["longitude"] = $this->fullResponse["results"][0]["geometry"]["location"]["lng"];
 			
 			// return full response for right now.
-			return $this->fullResponse;
+			return $geocoordinates;
 	    }
 	}
 ?>
