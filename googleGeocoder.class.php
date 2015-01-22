@@ -63,29 +63,25 @@
 	        // Google geocoder has rate limit 
 	        usleep( 1000000 / $this->limit );
 
-		// let's build our URL
-		$baseURL = "https://maps.googleapis.com/maps/api/geocode/";
-		// $output = $this->outputFormat;
-		$baseURL .= $this->outputFormat;
-		$baseURL .= "?address=";
-		$baseURL .= rawurlencode($this->streetAddress);
-		$baseURL .= "&key=";
-		$baseURL .= $this->apiKey;
+			// let's build our URL
+			$baseURL = "https://maps.googleapis.com/maps/api/geocode/";
+			$baseURL .= $this->outputFormat;
+			$baseURL .= "?address=";
+			$baseURL .= rawurlencode($this->streetAddress);
+			$baseURL .= "&key=";
+			$baseURL .= $this->apiKey;
 
-		// now let's put them all together
-		$fullURL = $baseURL . $output . $addressURL . $keyURL;
-	
-		// now let's ask Google for the geocode information	
-		$fullResponse = json_decode(file_get_contents($baseURL), true);
+			// now let's ask Google for the geocode information	
+			$fullResponse = json_decode(file_get_contents($baseURL), true);
 				
-		$geocoordinates = "";
+			$geocoordinates = "";
 	
-		// ToDo: check status of the response, to make sure everything is good
+			// ToDo: check status of the response, to make sure everything is good
 			
-		$geocoordinates["latitude"] = $fullResponse["results"][0]["geometry"]["location"]["lat"];
-		$geocoordinates["longitude"] = $fullResponse["results"][0]["geometry"]["location"]["lng"];
+			$geocoordinates["latitude"] = $fullResponse["results"][0]["geometry"]["location"]["lat"];
+			$geocoordinates["longitude"] = $fullResponse["results"][0]["geometry"]["location"]["lng"];
 	
-		return $geocoordinates;
+			return $geocoordinates;
 	    }
 	}
 ?>
