@@ -1,10 +1,10 @@
 <?php
 
 	class GoogleGeocoder {
-	    private $streetAddress;
-	    private $geoCoordinates;
-	    private $limit = 5; // default value
-	    private $apiKey;
+		private $streetAddress;
+		private $geoCoordinates;
+		private $limit = 5; // default value
+		private $apiKey;
 		private $outputFormat = "json"; // can be json or xml
 		private $fullResponse;
 	
@@ -74,8 +74,6 @@
 			// now let's ask Google for the geocode information	
 			$fullResponse = json_decode(file_get_contents($baseURL), true);
 				
-			$geocoordinates = "";
-	
 			// ToDo: check status of the response, to make sure everything is good
 			
 			$geocoordinates["latitude"] = $fullResponse["results"][0]["geometry"]["location"]["lat"];
